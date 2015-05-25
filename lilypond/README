@@ -40,3 +40,5 @@ Installing
 
   The first value is for 'lily' role setting in absolute fontsize. The
   second value is for 'lily' directive setting in relative fontsize. 
+
+- Note that the package is available only for Python 3 environment !!
