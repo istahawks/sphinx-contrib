@@ -110,8 +110,10 @@ def render_lily(self, lily):
         return None, None
 
     music = DOC_HEAD + self.builder.config.pnglily_preamble + lily
-    if isinstance(music, unicode):
-        music = music.encode('utf-8')
+    
+    ## The following Code is for python 2.x only
+    # if isinstance(music, unicode):
+    #    music = music.encode('utf-8')
 
     # use only one tempdir per build -- the use of a directory is cleaner
     # than using temporary files, since we can clean up everything at once
@@ -138,7 +140,7 @@ def render_lily(self, lily):
     lilypond_args.append(path.join(tempdir, 'music.ly'))
     try:
         p = Popen(lilypond_args, stdout=PIPE, stderr=PIPE)
-    except OSError, err:
+    except OSError as err:
         if err.errno != 2:   # No such file or directory
             raise
         self.builder.warn('lilypond command %r cannot be run (needed for music '
@@ -180,7 +182,7 @@ def html_visit_lily(self, node):
     #music += '#"' + node['music'] + '"' + Inline_BACK
     try:
         fname = render_lily(self, music)
-    except LilyExtError, exc:
+    except LilyExtError as exc:
         sm = nodes.system_message(unicode(exc), type='WARNING', level=2,
                                   backrefs=[], source=node['music'])
         sm.walkabout(self)
@@ -206,7 +208,7 @@ def html_visit_displaylily(self, node):
         music += node['music'] + Directive_BACK
     try:
         fname = render_lily(self, music)
-    except LilyExtError, exc:
+    except LilyExtError as exc:
         sm = nodes.system_message(unicode(exc), type='WARNING', level=2,
                                   backrefs=[], source=node['music'])
         sm.walkabout(self)
